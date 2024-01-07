@@ -1,12 +1,13 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'package:cs496_project2_front_end/model/user_model.dart';
+import 'dart:ffi';
+import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import '../model/user_model.dart';
 
 Future<List<UserModel>> fetchUsers() async {
   final response =
-      await http.get(Uri.parse('http://192.249.18.152/user/fetchall'));
+  await http.get(Uri.parse('http://3.144.38.43/user/fetchall'));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -24,28 +25,6 @@ Future<List<UserModel>> fetchUsers() async {
   }
 }
 
-Future<UserModel> addUser(UserModel user) async {
-  final response = await http.post(
-      Uri.parse('http://192.249.18.152/user/createuser'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8'
-      },
-      body: jsonEncode(<String, dynamic>{
-        'u_id': user.u_id,
-        'name': user.name,
-        'profile_word': user.profile_word,
-        'profile_pic': user.profile_pic,
-        'email': user.email,
-        'password': user.password,
-        'birthdate': user.birthdate
-      }));
-  if (response.statusCode == 201) {
-    return UserModel.fromJson(jsonDecode(response.body));
-  } else {
-    throw Exception('Failed to add user');
-  }
-}
-
 Future<UserModel?> fetchUserByEmail(String userEmail) async {
   List<UserModel> users = await fetchUsers();
 
@@ -55,44 +34,39 @@ Future<UserModel?> fetchUserByEmail(String userEmail) async {
   return null;
 }
 
-Future<UserModel?> fetchUserByUid(int uid) async {
-  List<UserModel> users = await fetchUsers();
-
-  for (var user in users) {
-    if (user.u_id == uid) return user;
-  }
-  return null;
-}
-
-Future<UserModel?> fetchUserByUidWithoutGiven() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String uid = prefs.getString('u_id') ?? '0';
-  List<UserModel> users = await fetchUsers();
-  log('Current user id: ${uid}');
-  for (var user in users) {
-    if (user.u_id == int.parse(uid)) return user;
-  }
-  return null;
-}
-
-Future<UserModel> updateUser(UserModel user) async {
-  final response = await http.put(
-      Uri.parse('http://192.249.18.152/user/updateuser'),
+Future<UserModel> addUser(UserModel user) async {
+  final response = await http.post(
+      Uri.parse('http://3.144.38.43/user/createuser'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       },
       body: jsonEncode(<String, dynamic>{
         'u_id': user.u_id,
-        'name': user.name,
-        'profile_word': user.profile_word,
-        'profile_pic': user.profile_pic,
+        // 'name': user.name,
+        // 'username': user.username,
+        'room': user.room,
         'email': user.email,
-        'password': user.password,
-        'birthdate': user.birthdate
+        'password': user.password
       }));
-  if (response.statusCode == 200) {
+  if (response.statusCode == 201) {
+    print("해당 유저가 등록되었습니다.");
     return UserModel.fromJson(jsonDecode(response.body));
   } else {
-    throw Exception('Failed to update user');
+    throw Exception('Failed to add user');
   }
+}
+
+Future<UserModel?> fetchUserByUidWithoutGiven() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  // prefs에 대한 정보 날림
+  // prefs.clear();
+  //디버깅
+  Set<String> allKeys = prefs.getKeys();
+  print(allKeys);
+  String uid = prefs.getString('u_id') ?? '0';
+  List<UserModel> users = await fetchUsers();
+  for (var user in users) {
+    if (user.u_id == int.parse(uid)) return user;
+  }
+  return null;
 }

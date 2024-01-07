@@ -144,6 +144,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  http:
+    dependency: "direct main"
+    description:
+      name: http
+      sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.13.6"
   http_parser:
     dependency: transitive
     description:
@@ -193,7 +201,7 @@ packages:
     source: hosted
     version: "1.8.0"
   kakao_flutter_sdk_friend:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: kakao_flutter_sdk_friend
       sha256: b19a620a92330e0a9894631dce5ad529b999bee960116031db600dd5ba6adc90
@@ -201,7 +209,7 @@ packages:
     source: hosted
     version: "1.8.0"
   kakao_flutter_sdk_navi:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: kakao_flutter_sdk_navi
       sha256: ef463e9169209cb0bce2e96d4480e5f6e7a40d3ebd5bfdf19de1e8585acc2d83
@@ -209,7 +217,7 @@ packages:
     source: hosted
     version: "1.8.0"
   kakao_flutter_sdk_share:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: kakao_flutter_sdk_share
       sha256: "6df4475d1815e476b90bfa2a4109c83b5e9398fc5d8c22f8fa03f0d87ab43b35"
@@ -217,7 +225,7 @@ packages:
     source: hosted
     version: "1.8.0"
   kakao_flutter_sdk_talk:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: kakao_flutter_sdk_talk
       sha256: "35679b2378085468d1c470e4d064559e471867bad7e2cb15117f96a0cb3ccd05"
@@ -233,7 +241,7 @@ packages:
     source: hosted
     version: "1.8.0"
   kakao_flutter_sdk_user:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: kakao_flutter_sdk_user
       sha256: fc35a8eee07aa04fd9a24c269635f3f35f0f344b5a4e12644276c8712c102903
@@ -329,7 +337,7 @@ packages:
     source: hosted
     version: "3.7.3"
   shared_preferences:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shared_preferences
       sha256: "81429e4481e1ccfb51ede496e916348668fd0921627779233bd24cc3ff6abd02"
