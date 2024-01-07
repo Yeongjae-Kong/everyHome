@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../model/user_model.dart';
@@ -24,41 +23,6 @@ class AuthViewModel {
       if (userId == '') {
         state = 'IDerror';
       } else {
-        // SharedPreferences prefs = await SharedPreferences.getInstance();
-        // await fetchUserByEmail(email).then((value) async {
-        //   if (value == null) {
-        //     //user가 kakao로 우리 앱에 가입한 적이 없는 경우
-        //     log("사용자 추가");
-        //     UserModel userByUserModel = UserModel(
-        //         u_id: 0,
-        //         name: user?.kakaoAccount?.profile?.nickname ?? '',
-        //         username: '',
-        //         // profile_word: '',
-        //         // profile_pic: user?.kakaoAccount?.profile?.profileImageUrl ?? '',
-        //         email: user?.kakaoAccount?.email ?? '',
-        //         password: 'kakao');
-        //         // birthdate: user?.kakaoAccount?.legalBirthDate ?? '');
-        //     addUser(userByUserModel).then((value) async {
-        //       SharedPreferences prefs = await SharedPreferences.getInstance();
-        //       prefs.setString('email', email);
-        //       prefs.setString('u_id', value.u_id.toString());
-        //       print('email: $email');
-        //       print('user_id: ${value.u_id}');
-        //       print('useradd');
-        //       state = 'useradd';
-        //     });
-        //   } else {
-        //     log("유저 정보 있음");
-        //     //처음보는 유저가 아닐 때!! 유저 정보 sharedpreference에 저장 -> navigator!
-        //     SharedPreferences prefs = await SharedPreferences.getInstance();
-        //     prefs.setString('email', email);
-        //     prefs.setString('u_id', value.u_id.toString());
-        //     print('email: $email');
-        //     print('user_id: ${value.u_id}');
-        //     print('userlogin');
-        //     state = 'userlogin';
-        //   }
-        // });
         state = 'ID';
       }
     }

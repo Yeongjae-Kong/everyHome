@@ -70,4 +70,3 @@ Future<UserModel?> fetchUserByUidWithoutGiven() async {
   }
   return null;
 }
-
