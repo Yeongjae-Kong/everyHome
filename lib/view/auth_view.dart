@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:madcamp_week2/view/kakao_auth_join_view.dart';
+import 'package:madcamp_week2/view/log_out.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/user_model.dart';
 import '../viewmodel/auth/auth_viewmodel.dart';
@@ -138,11 +139,14 @@ class _CustomLoginFormState extends State<CustomLoginForm>{
                 await SharedPreferences.getInstance();
                 prefs.setString('email', email);
                 prefs.setString('u_id', value.u_id.toString());
+                prefs.setString('room', value.room);
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: (BuildContext ctx) =>
-                        const ControlView()));
+                        const ControlView()
+                      // Logout()
+                    ));
               } else {
                 log('비밀번호가 잘못되었습니다.');
               }

@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:madcamp_week2/view/control_view.dart';
+import 'package:madcamp_week2/view/log_out.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/user_model.dart';
 import '../viewmodel/user_viewmodel.dart';
@@ -56,8 +58,6 @@ class _CustomJoinFormState extends State<CustomJoinForm> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (val) {
               bool _isValidName(String val) {
-                // return RegExp(r"^[A-Za-z0-9가-힣()]+[A-Za-z0-9가-힣()\s]$")
-                //     .hasMatch(val);
                 return RegExp(r"^[0-9()]+[0-9()]+[0-9()\s]$").hasMatch(val);
               }
 
@@ -102,6 +102,10 @@ class _CustomJoinFormState extends State<CustomJoinForm> {
               ],
             ),
             onPressed: () {
+              // Navigator.of(context).pushAndRemoveUntil(
+              //     CupertinoPageRoute(
+              //         builder: (BuildContext ctx) => const ControlView()),
+              //         (_) => false);
               if (widget._formKey.currentState!.validate()) {
                 widget._formKey.currentState!.save();
                 //server의 유저정보와 같은 것이 있는지 체크
@@ -117,14 +121,32 @@ class _CustomJoinFormState extends State<CustomJoinForm> {
                         email: email,
                         password: '',
                         ));
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    prefs.setString('u_id', value?.u_id?.toString() ?? '');
+                    prefs.setString('room', room);
+                    prefs.setString('email', email);
+                    print('$room, $email, ${value?.u_id}');
                     Navigator.of(context).pushAndRemoveUntil(
                         CupertinoPageRoute(
-                            builder: (BuildContext ctx) => const ControlView()),
+                            builder: (BuildContext ctx) =>
+                            const ControlView()
+                          // Logout()
+                        ),
                             (_) => false);
                   } else {
                     log('해당 이메일은 이미 등록되었습니다...');
-                    return const SnackBar(
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    prefs.setString('u_id', value?.u_id?.toString() ?? '');
+                    prefs.setString('room', room);
+                    prefs.setString('email', email);
+                    print('$room, $email, ${value?.u_id}');
+                    const SnackBar(
                         content: Text('동일한 이메일이 이미 존재합니다'));
+                    Navigator.of(context).pushAndRemoveUntil(
+                        CupertinoPageRoute(
+                        builder: (BuildContext ctx) =>
+                    const ControlView()),
+                    (_) => false);
                   }
                 });
               }

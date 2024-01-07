@@ -2,6 +2,7 @@ import 'package:madcamp_week2/view/auth_view.dart';
 import 'package:madcamp_week2/view/control_view.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
+import 'package:madcamp_week2/view/log_out.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
@@ -27,8 +28,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: email == null ? AuthView() : const ControlView(),
-      // home: AuthView(),
+      // home: email == null ? AuthView() : const ControlView(),
+        home: email == null? AuthView() : Logout()
+      //   home: Logout()
     );
   }
 }

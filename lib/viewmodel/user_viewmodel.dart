@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'dart:ffi';
+import 'dart:math';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../model/user_model.dart';
 
 Future<List<UserModel>> fetchUsers() async {
@@ -46,8 +49,25 @@ Future<UserModel> addUser(UserModel user) async {
         'password': user.password
       }));
   if (response.statusCode == 201) {
+    print("해당 유저가 등록되었습니다.");
     return UserModel.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('Failed to add user');
   }
 }
+
+Future<UserModel?> fetchUserByUidWithoutGiven() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  // prefs에 대한 정보 날림
+  // prefs.clear();
+  //디버깅
+  Set<String> allKeys = prefs.getKeys();
+  print(allKeys);
+  String uid = prefs.getString('u_id') ?? '0';
+  List<UserModel> users = await fetchUsers();
+  for (var user in users) {
+    if (user.u_id == int.parse(uid)) return user;
+  }
+  return null;
+}
+
