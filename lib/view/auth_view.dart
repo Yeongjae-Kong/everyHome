@@ -206,20 +206,24 @@ class KakaoLoginButton extends StatelessWidget {
           primary: Colors.amber,
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
           maximumSize: const Size.fromHeight(50)),
-      onPressed: () {
+      onPressed: () async {
+        try {
           log('카카오 버튼이 눌렸습니다.');
-          viewModel.login().then((value) {
-            // TODO: value를 true로 바꿔야함
-            if (value == true) {
-              Navigator.of(context).pushAndRemoveUntil(
-                  CupertinoPageRoute(
-                      builder: (BuildContext ctx) => KakaoAuthJoinView()),
-                      (_) => false);
-            } else {
-              print('로그인에 실패했습니다.');
-            }
-          });
-        },
+          bool value = await viewModel.login();
+          if (value) {
+            Navigator.of(context).pushAndRemoveUntil(
+              CupertinoPageRoute(builder: (BuildContext ctx) => KakaoAuthJoinView()),
+                  (_) => false,
+            );
+          } else {
+            print('로그인에 실패했습니다.');
+          }
+        } catch (e) {
+          // 여기서 e는 발생한 예외입니다.
+          print('로그인 중 오류가 발생했습니다: $e');
+          // 필요한 경우 사용자에게 오류 메시지를 표시할 수 있습니다.
+        }
+      },
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

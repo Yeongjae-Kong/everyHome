@@ -3,34 +3,37 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 class KakaoLogin {
   Future<bool> login() async {
-    print("카카오로그인 시도");
+    log("카카오로그인 시도");
+    print(await KakaoSdk.origin);
     try {
       bool isInstalled = await isKakaoTalkInstalled();
-      print("카카오톡 설치됨");
+      log("카카오톡 설치됨");
       if (isInstalled) {
         try {
-          print("카카오 로그인 시도");
+          log("카카오 로그인 시도");
           await UserApi.instance.loginWithKakaoTalk();
           log("카카오톡 로그인 성공");
           return true;
         } catch (e) {
-          print("$e");
+          log("카카오톡 로그인 에러: ${e.toString()}");
           return false;
         }
       } else {
         try {
           await UserApi.instance.loginWithKakaoAccount();
+          log("카카오 계정으로 로그인 성공");
           return true;
         } catch (e) {
-          print("$e");
+          log("카카오 계정 로그인 에러: ${e.toString()}");
           return false;
         }
       }
     } catch (e) {
-      print("$e");
+      log("카카오 로그인 시도 에러: ${e.toString()}");
       return false;
     }
   }
+
 
   Future<bool> logout() async {
     try {
