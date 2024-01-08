@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:madcamp_week2/view/CustomAppBar.dart';
-import 'package:madcamp_week2/view/BoardView.dart';
 import 'package:madcamp_week2/view/TopMenuView.dart';
 import 'package:madcamp_week2/view/NoticeView.dart';
 
@@ -26,7 +25,9 @@ class _ControlViewState extends State<ControlView> {
           ),
           Expanded(
             flex: 3,
-            child: BoardView(), // 게시판 뷰
+            child: Container(
+              color: Colors.white.withOpacity(0.1),
+            ), // 게시판 뷰
           ),
         ],
       ),
