@@ -39,7 +39,6 @@ class TopMenuView extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
-          color: Color(0xFFF6F6F6),
           child: InkWell(
             onTap: (){
               //TODO 추가
