@@ -8,11 +8,24 @@ import 'ItemDetailModal.dart';
 class ControlViewDS extends StatefulWidget {
   const ControlViewDS({Key? key}) : super(key: key);
 
+
   @override
   State<ControlViewDS> createState() => _ControlViewDSState();
 }
 
 class _ControlViewDSState extends State<ControlViewDS> {
+  // itemList 선언
+  List<Map<String, String>> itemList = [
+    {'title': '김윤서', 'content': '안녕하세요. 저는 김윤서입니다. 만나서 반가워요. 저는 몰입캠프에 참가하여 코딩을 열심히 하고 있답니다. 많은 사람들을 만날 수 있어 참 좋은 것 같아요. 몰입캠프를 여러분들께 추천합니다.',
+      'image': 'https://raw.githubusercontent.com/Yeongjae-Kong/madcamp_week2/main/assets/images/apartment.jpeg'},
+    {'title': '공영재', 'content': '맛있어요', 'image': 'https://raw.githubusercontent.com/Yeongjae-Kong/madcamp_week2/main/assets/images/home_icon.png'},
+    {'title': '정해준', 'content': '이상해요', 'image': 'https://raw.githubusercontent.com/Yeongjae-Kong/madcamp_week2/main/assets/images/bell_icon.png'},
+    {'title': '전진우', 'content': '귀여워요', 'image': ''},
+    {'title': '박현규', 'content': '착해요', 'image': ''},
+    {'title': '이수민', 'content': '침착해요', 'image': ''},
+    {'title': '안시현', 'content': '성실해요', 'image': ''},
+    ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +55,7 @@ class _ControlViewDSState extends State<ControlViewDS> {
           elevation: 4, // 띄워진 느낌을 위한 그림자
         ),
       ),
+
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
     );
@@ -115,31 +129,51 @@ class _ControlViewDSState extends State<ControlViewDS> {
                             const Spacer(),
                           ]
                       ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: 20,
-                      itemBuilder: (BuildContext context, int index) {
-                        return InkWell(
-                          onTap: () {
-                            // 클릭한 아이템의 인덱스를 이용하여 모달을 띄우는 로직 추가
-                            String noticeContent = '아이템 ${index+1}의 내용입니다.';
-                            ItemDetailModal.show(context, noticeContent);
-                          },
-                          child: Container(
-                            height: 80,
-                            margin: EdgeInsets.symmetric(vertical: 8),
-                            color: Color(0x7FADCFF8),
-                            child: ListTile(
-                              title: Text(
-                                '아이템 $index',
-                                style: TextStyle(fontSize: 18),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: itemList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                              onTap: () {
+                                String title = itemList[index]['title']!;
+                                String content = itemList[index]['content']!;
+                                String imageUrl = itemList[index]['image']!; // 이미지 URL 가져오기
+                                ItemDetailModal.show(context, title, content, imageUrl);
+                              },
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+                                    title: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          itemList[index]['title']!,
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          itemList[index]['content']!,
+                                          style: TextStyle(fontSize: 14, color: Colors.grey),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  // Divider를 사용하여 가로 선을 추가
+                                  Divider(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    thickness: 2, // 가로 선의 두께 조절
+                                    indent: MediaQuery.of(context).size.width * 0.05, // 시작 위치 여백 (화면의 10%)
+                                    endIndent: MediaQuery.of(context).size.width * 0.05, // 가로 선의 길이를 화면의 80%로 설정 (화면의 80%)
+                                    ),
+                                ],
                               ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),

@@ -20,7 +20,13 @@ class PostModal {
                   children: <Widget>[
                     TextField(
                       controller: titleController,
-                      decoration: const InputDecoration(labelText: '제목'),
+                      decoration: const InputDecoration(
+                        labelText: '제목',
+                        labelStyle: TextStyle(color: Colors.black),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black)
+                        )
+                      ),
                     ),
                     const SizedBox(height: 20),
                     TextField(
@@ -34,7 +40,7 @@ class PostModal {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(width: 1, color: Colors.black),
+                          borderSide: BorderSide(width: 1, color: Colors.grey),
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -69,12 +75,13 @@ class PostModal {
                   child: Text('작성하기'),
                   onPressed: () {
                     // 글 작성 로직 구현
-                    if (!_isContentEmpty(titleController.text, contentController.text)) {
+                    if (!_isContentEmpty(
+                        titleController.text, contentController.text)) {
                       // TODO: 제목이나 내용 중 하나 이상이 입력되었을 때의 로직 추가
                       Navigator.of(context).pop();
                     } else {
                       // 둘 중 하나라도 작성되지 않았을 때 에러 메시지 표시
-                      showErrorDialog(context, "제목과 내용을 모두 입력해주세요.");
+                      showErrorDialog(context, "제목과 내용을 입력해주세요.");
                     }
                   },
                 ),
@@ -101,43 +108,79 @@ class PostModal {
     return null;
   }
 
-  static void showErrorDialog(BuildContext context, String message) {
+//   static void showErrorDialog(BuildContext context, String message) {
+//     showDialog(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return AlertDialog(
+//           content: Text(message),
+//           backgroundColor: Colors.white,
+//           actions: <Widget>[
+//             TextButton(
+//               child: Text('확인'),
+//               onPressed: () {
+//                 Navigator.of(context).pop();
+//               },
+//             ),
+//           ],
+//         );
+//       },
+//     );
+//   }
+// }
+
+
+  static void _showImageAttachedAlert(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          content: Text(message),
-          backgroundColor: Colors.white,
-          actions: <Widget>[
-            TextButton(
-              child: Text('확인'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+        return Dialog(
+          child: Container(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // 크기를 최소화
+              children: [
+                Text('이미지가 첨부되었습니다.'),
+                SizedBox(height: 16),
+                TextButton(
+                  child: Text('확인'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
             ),
-          ],
+          ),
+          backgroundColor: Colors.white,
         );
       },
     );
   }
-}
 
-void _showImageAttachedAlert(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        content: Text('이미지가 첨부되었습니다.'),
-        backgroundColor: Colors.white,
-        actions: <Widget>[
-          TextButton(
-            child: Text('확인'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+  static void showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Container(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // 크기를 최소화
+              children: [
+                Text(message),
+                SizedBox(height: 16),
+                TextButton(
+                  child: Text('확인'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
           ),
-        ],
-      );
-    },
-  );
+          backgroundColor: Colors.white,
+        );
+      },
+    );
+  }
 }
