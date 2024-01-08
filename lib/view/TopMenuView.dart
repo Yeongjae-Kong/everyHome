@@ -41,7 +41,10 @@ class TopMenuView extends StatelessWidget {
           ),
           color: Color(0xFFF6F6F6),
           child: InkWell(
-            onTap: onTap,
+            onTap: (){
+              //TODO 추가
+            },
+
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
