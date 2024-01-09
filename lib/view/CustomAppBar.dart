@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:madcamp_week2/view/control_view_ds.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:madcamp_week2/view/kakao_auth_join_view.dart';
 
 import 'auth_view.dart';
 
@@ -80,9 +81,9 @@ class CustomAppBar extends StatelessWidget {
                               leading: Icon(Icons.edit), // 회원정보 수정 아이콘
                               title: Text("회원정보 수정"),
                               onTap: () {
-                                // 회원정보 수정 동작 구현
-                                print("회원정보 수정 시도");
-                                // TODO: 회원정보 수정 로직 추가
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => KakaoAuthJoinView()),
+                                );
                               },
                             ),
                             ListTile(

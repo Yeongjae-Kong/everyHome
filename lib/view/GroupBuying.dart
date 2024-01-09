@@ -96,7 +96,7 @@ class _GroupBuyingState extends State<GroupBuying> {
               setState(() {
                 groupBuyings.removeWhere((item) => item.id == groupBuying.id); // ID를 기준으로 항목 제거
               });
-              Future.delayed(Duration(milliseconds: 500), () => _loadGroupBuyings());
+              _loadGroupBuyings();
             } catch (e) {
               // 오류 처리
               print('Error deleting group buying: $e');
