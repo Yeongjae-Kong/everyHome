@@ -104,10 +104,6 @@ class _CustomJoinFormState extends State<CustomJoinForm> {
               ],
             ),
             onPressed: () {
-              // Navigator.of(context).pushAndRemoveUntil(
-              //     CupertinoPageRoute(
-              //         builder: (BuildContext ctx) => const ControlView()),
-              //         (_) => false);
               if (widget._formKey.currentState!.validate()) {
                 widget._formKey.currentState!.save();
                 //server의 유저정보와 같은 것이 있는지 체크
@@ -118,8 +114,6 @@ class _CustomJoinFormState extends State<CustomJoinForm> {
                     Future<UserModel> futureNewUser = addUser(UserModel(
                         u_id: -1,
                         room: room,
-                        // username: '',
-                        // name: name,
                         email: email,
                         password: '',
                         ));
