@@ -27,4 +27,15 @@ class GroupDeliveryModel {
         member: json['member'],
         duetime: DateTime.parse(json['duetime']));
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'email': email,
+      'title': title,
+      'content': content,
+      'image': image,
+      'member': member,
+      'duetime': duetime.toIso8601String(),
+    };
+  }
 }

@@ -104,7 +104,7 @@ class _GroupDeliveryState extends State<GroupDelivery> {
               print('Error deleting group buying: $e');
             }
           },
-          child: Text('삭제하기'),
+          child: Text('삭제하기', style: TextStyle(color: Colors.red),),
         );
       } else {
         actionButton = ElevatedButton(
@@ -154,6 +154,11 @@ class _GroupDeliveryState extends State<GroupDelivery> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   Text('남은 인원: ${GroupDelivery.member}명'),
+                  SizedBox(height: 8),
+                  Text('마감 시간: ${DateFormat('yyyy년 M월 d일').format(GroupDelivery.duetime)}'),
+                  SizedBox(height: 8),
+                  Text('${DateFormat('HH시 mm분').format(GroupDelivery.duetime)}'),
+                  SizedBox(height: 8),
                   actionButton,
                 ],
               ),

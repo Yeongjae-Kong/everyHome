@@ -20,7 +20,7 @@ Future<GroupDeliveryModel?> addGroupDelivery(GroupDeliveryModel GroupDelivery) a
   print('Content: ${GroupDelivery.content}');
   print('Image: ${GroupDelivery.image}');
   print('Member: ${GroupDelivery.member}');
-  print('duetime: ${GroupDelivery.duetime}');
+  print('duetime: ${GroupDelivery.duetime.toIso8601String()}');
 
   final response = await http.post(
     Uri.parse('http://3.144.38.43/GroupDelivery/createGroupDelivery'), // 서버 엔드포인트
@@ -33,7 +33,7 @@ Future<GroupDeliveryModel?> addGroupDelivery(GroupDeliveryModel GroupDelivery) a
       'content': GroupDelivery.content,
       'image': GroupDelivery.image,
       'member': GroupDelivery.member,
-      'duetime': GroupDelivery.duetime
+      'duetime': GroupDelivery.duetime.toIso8601String()
     }),
   );
 
