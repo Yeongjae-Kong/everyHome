@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/groupbuying_model.dart';
 import 'package:madcamp_week2/view/CustomAppBar.dart';
-
 import '../viewmodel/groupbuying_viewmodel.dart';
 
 class GroupBuying extends StatefulWidget {

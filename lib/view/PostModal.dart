@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:madcamp_week2/viewmodel/board_viewmodel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../model/board_model.dart';
 
 class PostModal {
-  static void show(BuildContext context) {
+  void show(BuildContext context, String email) {
+    File? selectedImage;
     TextEditingController titleController = TextEditingController();
     TextEditingController contentController = TextEditingController();
+
+
 
     showDialog(
       context: context,
@@ -53,9 +60,9 @@ class PostModal {
                     ElevatedButton(
                       onPressed: () async {
                         // 이미지 첨부 기능 구현
-                        File? image = await _getImageFromGallery();
+                        selectedImage = await _getImageFromGallery();
                         // TODO: 선택된 이미지를 사용하거나 업로드하는 로직 추가
-                        if (image != null) {
+                        if (selectedImage != null) {
                           _showImageAttachedAlert(context);
                         }
                       },
@@ -73,11 +80,26 @@ class PostModal {
                 ),
                 TextButton(
                   child: Text('작성하기'),
-                  onPressed: () {
+                  onPressed: () async {
                     // 글 작성 로직 구현
                     if (!_isContentEmpty(
                         titleController.text, contentController.text)) {
                       // TODO: 제목이나 내용 중 하나 이상이 입력되었을 때의 로직 추가
+                      String? imagePath = selectedImage?.path;
+                      String _imagePath = imagePath ?? '';
+                      BoardModel newBoardModel = BoardModel(
+                          id: -1,
+                          email: email,
+                          title: titleController.text,
+                          content: contentController.text,
+                          image: _imagePath,
+                          );
+
+                      try{
+                        await addBoard(newBoardModel);
+                      } catch (e){
+                        print(e);
+                      }
                       Navigator.of(context).pop();
                     } else {
                       // 둘 중 하나라도 작성되지 않았을 때 에러 메시지 표시
@@ -107,27 +129,6 @@ class PostModal {
 
     return null;
   }
-
-//   static void showErrorDialog(BuildContext context, String message) {
-//     showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return AlertDialog(
-//           content: Text(message),
-//           backgroundColor: Colors.white,
-//           actions: <Widget>[
-//             TextButton(
-//               child: Text('확인'),
-//               onPressed: () {
-//                 Navigator.of(context).pop();
-//               },
-//             ),
-//           ],
-//         );
-//       },
-//     );
-//   }
-// }
 
 
   static void _showImageAttachedAlert(BuildContext context) {
