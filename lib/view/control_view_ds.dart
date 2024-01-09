@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:madcamp_week2/view/PostModal.dart';
 import 'package:madcamp_week2/view/control_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../model/board_model.dart';
+import '../viewmodel/board_viewmodel.dart';
 import 'ItemDetailModal.dart';
 
 class ControlViewDS extends StatefulWidget {
@@ -15,16 +18,44 @@ class ControlViewDS extends StatefulWidget {
 
 class _ControlViewDSState extends State<ControlViewDS> {
   // itemList 선언
-  List<Map<String, String>> itemList = [
-    {'title': '김윤서', 'content': '안녕하세요. 저는 김윤서입니다. 만나서 반가워요. 저는 몰입캠프에 참가하여 코딩을 열심히 하고 있답니다. 많은 사람들을 만날 수 있어 참 좋은 것 같아요. 몰입캠프를 여러분들께 추천합니다.',
-      'image': 'https://raw.githubusercontent.com/Yeongjae-Kong/madcamp_week2/main/assets/images/apartment.jpeg'},
-    {'title': '공영재', 'content': '맛있어요', 'image': 'https://raw.githubusercontent.com/Yeongjae-Kong/madcamp_week2/main/assets/images/home_icon.png'},
-    {'title': '정해준', 'content': '이상해요', 'image': 'https://raw.githubusercontent.com/Yeongjae-Kong/madcamp_week2/main/assets/images/bell_icon.png'},
-    {'title': '전진우', 'content': '귀여워요', 'image': ''},
-    {'title': '박현규', 'content': '착해요', 'image': ''},
-    {'title': '이수민', 'content': '침착해요', 'image': ''},
-    {'title': '안시현', 'content': '성실해요', 'image': ''},
-    ];
+  // List<Map<String, String>> itemList = [
+  //   {'title': '김윤서', 'content': '안녕하세요. 저는 김윤서입니다. 만나서 반가워요. 저는 몰입캠프에 참가하여 코딩을 열심히 하고 있답니다. 많은 사람들을 만날 수 있어 참 좋은 것 같아요. 몰입캠프를 여러분들께 추천합니다.',
+  //     'image': 'https://raw.githubusercontent.com/Yeongjae-Kong/madcamp_week2/main/assets/images/apartment.jpeg'},
+  //   {'title': '공영재', 'content': '맛있어요', 'image': 'https://raw.githubusercontent.com/Yeongjae-Kong/madcamp_week2/main/assets/images/home_icon.png'},
+  //   {'title': '정해준', 'content': '이상해요', 'image': 'https://raw.githubusercontent.com/Yeongjae-Kong/madcamp_week2/main/assets/images/bell_icon.png'},
+  //   {'title': '전진우', 'content': '귀여워요', 'image': ''},
+  //   {'title': '박현규', 'content': '착해요', 'image': ''},
+  //   {'title': '이수민', 'content': '침착해요', 'image': ''},
+  //   {'title': '안시현', 'content': '성실해요', 'image': ''},
+  //   ];
+  PostModal _postModal = PostModal();
+  List<BoardModel> Boards = [];
+  String currentUserEmail = '';
+
+  @override
+  void initState(){
+    super.initState();
+    _loadCurrentUserEmail();
+    _loadBoards();
+  }
+
+  Future<void> _loadBoards() async {
+    try {
+      var fetchedBoards = await fetchBoards();
+      setState(() {
+        Boards = fetchedBoards;
+      });
+    } catch (e) {
+      print('Error fetching boards: $e');
+    }
+  }
+
+  Future<void> _loadCurrentUserEmail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      currentUserEmail = prefs.getString('email') ?? '';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +73,14 @@ class _ControlViewDSState extends State<ControlViewDS> {
       floatingActionButton: Padding(
         padding: EdgeInsets.only(bottom: 20), // 하단에 패딩 추가
         child: FloatingActionButton.extended(
-          onPressed: () => PostModal.show(context), // 모달 띄우기
+          onPressed: () async {
+            try{
+              _postModal.show(context, currentUserEmail);
+              await _loadBoards();
+            } catch (e){
+              print('$e');
+            }
+          }, // 모달 띄우기
           icon: Icon(Icons.create, size: 20, color: Colors.black), // 아이콘 크기 조절
           label: Text(
             '글쓰기',
@@ -55,16 +93,12 @@ class _ControlViewDSState extends State<ControlViewDS> {
           elevation: 4, // 띄워진 느낌을 위한 그림자
         ),
       ),
-
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
     );
   }
 
   Size getSize(BuildContext context) {
-    return MediaQuery
-        .of(context)
-        .size;
+    return MediaQuery.of(context).size;
   }
 
   _getDraggableScrollableSheet() {
@@ -131,14 +165,29 @@ class _ControlViewDSState extends State<ControlViewDS> {
                       ),
                       Expanded(
                         child: ListView.builder(
-                          itemCount: itemList.length,
+                          itemCount: Boards.length,
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
                               onTap: () {
-                                String title = itemList[index]['title']!;
-                                String content = itemList[index]['content']!;
-                                String imageUrl = itemList[index]['image']!; // 이미지 URL 가져오기
-                                ItemDetailModal.show(context, title, content, imageUrl);
+                                var isDeletable = false;
+                                if (Boards[index].email == currentUserEmail){
+                                  isDeletable = true;
+                                }
+                                int id = Boards[index].id;
+                                String title = Boards[index].title;
+                                String content = Boards[index].content;
+                                String imageUrl = Boards[index].image; // 이미지 URL 가져오기
+                                ItemDetailModal.show(context, id, title, content, imageUrl, isDeletable);
+                                // setState(() {
+                                //   Boards.removeWhere((item) => item.id == id); // ID를 기준으로 항목 제거
+                                // });
+                                Future.delayed(Duration(milliseconds: 500), () async {
+                                  try{
+                                    await _loadBoards();
+                                  } catch (e) {
+                                    print('Error loading boards: $e');
+                                  }
+                                });
                               },
                               child: Column(
                                 children: [
@@ -148,12 +197,12 @@ class _ControlViewDSState extends State<ControlViewDS> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          itemList[index]['title']!,
+                                          Boards[index].title,
                                           style: TextStyle(fontSize: 18),
                                         ),
                                         SizedBox(height: 5),
                                         Text(
-                                          itemList[index]['content']!,
+                                          Boards[index].content,
                                           style: TextStyle(fontSize: 14, color: Colors.grey),
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 2,

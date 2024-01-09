@@ -84,7 +84,7 @@ class NoticeView extends StatelessWidget {
                     String title = noticeItems[index]['title']!;
                     String content = noticeItems[index]['content']!;
                     String imageUrl = noticeItems[index]['image']!;
-                    ItemDetailModal.show(context, title, content, imageUrl);
+                    ItemDetailModal.show(context, 0, title, content, imageUrl, false);
                   },
                   child: Card(
                     margin: EdgeInsets.symmetric(horizontal: 8),
