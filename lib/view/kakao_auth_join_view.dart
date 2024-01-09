@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/user_model.dart';
 import '../viewmodel/user_viewmodel.dart';
+import 'control_view_ds.dart';
 
 class KakaoAuthJoinView extends StatelessWidget {
   KakaoAuthJoinView({Key? key}) : super(key: key);
@@ -145,7 +146,7 @@ class _CustomJoinFormState extends State<CustomJoinForm> {
                     Navigator.of(context).pushAndRemoveUntil(
                         CupertinoPageRoute(
                         builder: (BuildContext ctx) =>
-                    const ControlView()),
+                    const ControlViewDS()),
                     (_) => false);
                   }
                 });
