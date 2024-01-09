@@ -40,10 +40,7 @@ class TopMenuView extends StatelessWidget {
             borderRadius: BorderRadius.circular(15.0),
           ),
           child: InkWell(
-            onTap: (){
-              //TODO 추가
-            },
-
+            onTap: onTap,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
