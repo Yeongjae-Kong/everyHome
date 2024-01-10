@@ -37,7 +37,7 @@ class CustomAppBar extends StatelessWidget {
               ),
             ),
             const Text(
-              'our_home',
+              'everyhome',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20, // 필요에 따라 글꼴 크기를 조절하세요

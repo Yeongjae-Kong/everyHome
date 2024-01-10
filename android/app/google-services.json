@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "711266435537",
+    "project_id": "madcamp-week2-yeongjae-yoonseo",
+    "storage_bucket": "madcamp-week2-yeongjae-yoonseo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:711266435537:android:b415dbe94e4a25371460f0",
+        "android_client_info": {
+          "package_name": "com.example.madcamp_week2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAo5Y_IrhH_c_govLD1Nd6CZ24seQl5ISw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

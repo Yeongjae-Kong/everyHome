@@ -49,6 +49,27 @@ Future<GroupBuyingModel?> addGroupBuying(GroupBuyingModel groupBuying) async {
   }
 }
 
+Future<void> updateGroupBuying(GroupBuyingModel groupBuying) async {
+  final response = await http.put(
+    Uri.parse('http://3.144.38.43/groupbuying/updategroupbuying/${groupBuying.id}'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode({
+      'id': groupBuying.id,
+      'email': groupBuying.email,
+      'title': groupBuying.title,
+      'content': groupBuying.content,
+      'image': groupBuying.image,
+      'member': groupBuying.member,
+    }),
+  );
+
+  if (response.statusCode != 200) {
+    throw Exception('Failed to update group buying');
+  }
+}
+
 Future<void> deleteGroupBuying(int id) async {
   try {
     final response = await http.delete(
