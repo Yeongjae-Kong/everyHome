@@ -5,7 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../model/Groupdelivery_model.dart';
 import 'package:madcamp_week2/view/CustomAppBar.dart';
 
-import '../viewmodel/Groupdelivery_viewmodel.dart';
+import '../notification.dart';
+import '../viewmodel/groupdelivery_viewmodel.dart';
 
 class GroupDelivery extends StatefulWidget {
   @override
@@ -117,21 +118,62 @@ class _GroupDeliveryState extends State<GroupDelivery> {
               print('Error deleting group buying: $e');
             }
           },
-          child: Text('삭제하기', style: TextStyle(color: Colors.red),),
+          child: const Text(
+            '삭제하기',
+            style: TextStyle(
+              color: Colors.red, // 빨간색으로 변경
+              fontSize: 14, // 원하는 글자 크기로 조절
+              // fontWeight: FontWeight.bold, // 원하는 폰트 두께로 조절
+            ),
+          ),
         );
       } else {
+        DateTime dueTime = GroupDelivery.duetime;
+        DateTime now = DateTime.now();
+
+        // 기간 마감 여부 확인
+        bool isDeadlinePassed = dueTime.isBefore(now);
+
+        String buttonText = isDeadlinePassed ? '기간마감' : (GroupDelivery.member > 0 ? '신청하기' : '모집완료');
+        TextStyle buttonStyle = TextStyle(
+          fontSize: 14,
+          color: isDeadlinePassed ? Colors.white : null,
+          fontWeight: isDeadlinePassed ? FontWeight.bold : FontWeight.normal,
+        );
+        bool isButtonEnabled = GroupDelivery.member > 0 && !isDeadlinePassed;
+
+
         actionButton = ElevatedButton(
-          onPressed: () async {
+          onPressed: isButtonEnabled ? () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setString('applycheck', GroupDelivery.title);
+            if (GroupDelivery.member == 1) {
+              FlutterLocalNotification.showDeliveryNotification();
+            }
             setState(() {
-              if (GroupDelivery.member > 0) {
-                GroupDelivery.member -= 1;
-                prefs.setString('applycheck', GroupDelivery.title);
-              }
+              GroupDelivery.member -= 1;
             });
-          },
-          child: Text('신청하기'),
+            await updateGroupDelivery(GroupDelivery);
+
+            // 신청 후 알림 표시
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('알림'),
+                  content: Text('신청되었습니다'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: Text('확인'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          } : null,
+          child: Text(buttonText, style: buttonStyle),
         );
       }
 

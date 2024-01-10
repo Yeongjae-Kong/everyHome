@@ -37,7 +37,7 @@ class CustomAppBar extends StatelessWidget {
               ),
             ),
             const Text(
-              'our_home',
+              'everyhome',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20, // 필요에 따라 글꼴 크기를 조절하세요
@@ -75,7 +75,7 @@ class CustomAppBar extends StatelessWidget {
                             ListTile(
                               leading: Icon(Icons.edit),
                               title: Text("회원정보 수정"),
-                              onTap: () {
+                              onTap: () async {
                                 // ... 기존 코드
                               },
                             ),
@@ -83,7 +83,15 @@ class CustomAppBar extends StatelessWidget {
                               leading: Icon(Icons.person_remove),
                               title: Text("회원탈퇴"),
                               onTap: () async {
-                                // ... 기존 코드
+                                SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                                await prefs.clear();
+                                String idString = prefs.getString('u_id') ?? '-1';
+                                int id = int.tryParse(idString) ?? -1;
+                                await deleteUser(id);
+                                Navigator.of(context, rootNavigator: true)
+                                    .pushReplacement(MaterialPageRoute(
+                                    builder: (context) => AuthView()));
                               },
                             ),
                           ],

@@ -127,20 +127,43 @@ class _GroupBuyingState extends State<GroupBuying> {
           ),
         );
       } else {
+        String buttonText = groupBuying.member > 0 ? '신청하기' : '모집완료';
+        TextStyle buttonStyle = groupBuying.member > 0
+            ? TextStyle(fontSize: 14)
+            : TextStyle(fontSize: 14, fontWeight: FontWeight.bold);
+        bool isButtonEnabled = groupBuying.member > 0;
+
         actionButton = ElevatedButton(
-          onPressed: () async {
+          onPressed: isButtonEnabled ? () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
+            if (groupBuying.member == 1) {
+              FlutterLocalNotification.showBuyingNotification();
+            }
             setState(() {
-              if (groupBuying.member > 0) {
-                groupBuying.member -= 1;
-                fetchGroupBuyings();
-                FlutterLocalNotification.showNotification();
-
-
-              }
+              groupBuying.member -= 1;
             });
-          },
-          child: Text('신청하기'),
+            await updateGroupBuying(groupBuying);
+
+            // 신청 후 알림 표시
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('알림'),
+                  content: Text('신청되었습니다'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: Text('확인'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          } : null,
+          child: Text(buttonText, style: buttonStyle),
         );
       }
 
