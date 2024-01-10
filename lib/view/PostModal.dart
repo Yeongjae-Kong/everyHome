@@ -5,6 +5,7 @@ import 'package:madcamp_week2/viewmodel/board_viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/board_model.dart';
+import 'control_view_ds.dart';
 
 class PostModal {
   void show(BuildContext context, String email) {
@@ -100,7 +101,13 @@ class PostModal {
                       } catch (e){
                         print(e);
                       }
-                      Navigator.of(context).pop();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ControlViewDS(),
+                        ),
+                      );
+                      // Navigator.of(context).pop();
                     } else {
                       // 둘 중 하나라도 작성되지 않았을 때 에러 메시지 표시
                       showErrorDialog(context, "제목과 내용을 입력해주세요.");
