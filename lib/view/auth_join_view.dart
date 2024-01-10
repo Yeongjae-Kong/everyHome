@@ -140,8 +140,16 @@ class _CustomJoinFormState extends State<CustomJoinForm> {
                     Navigator.pop(context);
                   } else {
                     log('해당 이메일은 이미 등록되었습니다...');
-                    return const SnackBar(
-                        content: Text('동일한 이메일이 이미 존재합니다.'));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          '동일한 이메일이 이미 존재합니다.',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        duration: Duration(seconds: 2), // SnackBar 표시 시간 설정
+                        backgroundColor: Colors.white,
+                      ),
+                    );
                   }
                 });
               }

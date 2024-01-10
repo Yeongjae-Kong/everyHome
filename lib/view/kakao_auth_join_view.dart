@@ -125,7 +125,7 @@ class _CustomJoinFormState extends State<CustomJoinForm> {
                     Navigator.of(context).pushAndRemoveUntil(
                         CupertinoPageRoute(
                             builder: (BuildContext ctx) =>
-                            const ControlView()
+                            const ControlViewDS()
                           // Logout()
                         ),
                             (_) => false);
@@ -136,8 +136,16 @@ class _CustomJoinFormState extends State<CustomJoinForm> {
                     prefs.setString('room', room);
                     prefs.setString('email', email);
                     print('$room, $email, ${value?.u_id}');
-                    const SnackBar(
-                        content: Text('동일한 이메일이 이미 존재합니다'));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          '동일한 이메일이 이미 존재합니다.',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        duration: Duration(seconds: 2), // SnackBar 표시 시간 설정
+                        backgroundColor: Colors.white,
+                      ),
+                    );
                     Navigator.of(context).pushAndRemoveUntil(
                         CupertinoPageRoute(
                         builder: (BuildContext ctx) =>
