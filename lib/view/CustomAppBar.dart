@@ -52,7 +52,7 @@ class CustomAppBar extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return Container(
-                      height: 200,
+                      height: 150,
                       color: Colors.transparent,
                       child: Container(
                         decoration: const BoxDecoration(
@@ -69,21 +69,27 @@ class CustomAppBar extends StatelessWidget {
                               leading: Icon(Icons.logout),
                               title: Text("로그아웃"),
                               onTap: () async {
-                                // ... 기존 코드
-                              },
-                            ),
-                            ListTile(
-                              leading: Icon(Icons.edit),
-                              title: Text("회원정보 수정"),
-                              onTap: () {
-                                // ... 기존 코드
+                                SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                                await prefs.clear();
+                                Navigator.of(context, rootNavigator: true)
+                                    .pushReplacement(MaterialPageRoute(
+                                    builder: (context) => AuthView()));
                               },
                             ),
                             ListTile(
                               leading: Icon(Icons.person_remove),
                               title: Text("회원탈퇴"),
                               onTap: () async {
-                                // ... 기존 코드
+                                SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                                await prefs.clear();
+                                String idString = prefs.getString('u_id') ?? '-1';
+                                int id = int.tryParse(idString) ?? -1;
+                                await deleteUser(id);
+                                Navigator.of(context, rootNavigator: true)
+                                    .pushReplacement(MaterialPageRoute(
+                                    builder: (context) => AuthView()));
                               },
                             ),
                           ],
