@@ -10,6 +10,7 @@ import '../viewmodel/auth/kakao_login.dart';
 import '../viewmodel/user_viewmodel.dart';
 import 'auth_join_view.dart';
 import 'control_view.dart';
+import 'control_view_ds.dart';
 
 
 class AuthView extends StatelessWidget {
@@ -144,7 +145,7 @@ class _CustomLoginFormState extends State<CustomLoginForm>{
                     context,
                     MaterialPageRoute(
                         builder: (BuildContext ctx) =>
-                        const ControlView()
+                        const ControlViewDS()
                       // Logout()
                     ));
               } else {

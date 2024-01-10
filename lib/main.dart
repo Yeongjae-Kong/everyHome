@@ -1,3 +1,4 @@
+import 'package:madcamp_week2/notification.dart';
 import 'package:madcamp_week2/view/auth_view.dart';
 import 'package:madcamp_week2/view/control_view.dart';
 import 'package:flutter/material.dart';
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
       //   home: email == null? AuthView() : Logout()
       //   home: ControlView()
       //   home: Logout()
-//     );
-//   }
-// }
+    );
+  }
+}
+

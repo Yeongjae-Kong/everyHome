@@ -20,6 +20,20 @@ class ControlViewDS extends StatefulWidget {
 }
 
 class _ControlViewDSState extends State<ControlViewDS> {
+  double sheetPosition = 0;
+
+  // itemList 선언
+  // List<Map<String, String>> itemList = [
+  //   {'title': '김윤서', 'content': '안녕하세요. 저는 김윤서입니다. 만나서 반가워요. 저는 몰입캠프에 참가하여 코딩을 열심히 하고 있답니다. 많은 사람들을 만날 수 있어 참 좋은 것 같아요. 몰입캠프를 여러분들께 추천합니다.',
+  //     'image': 'https://raw.githubusercontent.com/Yeongjae-Kong/madcamp_week2/main/assets/images/apartment.jpeg'},
+  //   {'title': '공영재', 'content': '맛있어요', 'image': 'https://raw.githubusercontent.com/Yeongjae-Kong/madcamp_week2/main/assets/images/home_icon.png'},
+  //   {'title': '정해준', 'content': '이상해요', 'image': 'https://raw.githubusercontent.com/Yeongjae-Kong/madcamp_week2/main/assets/images/bell_icon.png'},
+  //   {'title': '전진우', 'content': '귀여워요', 'image': ''},
+  //   {'title': '박현규', 'content': '착해요', 'image': ''},
+  //   {'title': '이수민', 'content': '침착해요', 'image': ''},
+  //   {'title': '안시현', 'content': '성실해요', 'image': ''},
+  //   ];
+
   PostModal _postModal = PostModal();
   List<BoardModel> Boards = [];
   String currentUserEmail = '';
@@ -62,7 +76,8 @@ class _ControlViewDSState extends State<ControlViewDS> {
             )
           ],
         ),
-      floatingActionButton: Padding(
+        floatingActionButton: sheetPosition > 0.4
+        ? Padding(
         padding: EdgeInsets.only(bottom: 20), // 하단에 패딩 추가
         child: FloatingActionButton.extended(
           onPressed: () async {
@@ -73,10 +88,10 @@ class _ControlViewDSState extends State<ControlViewDS> {
               print('$e');
             }
           }, // 모달 띄우기
-          icon: Icon(Icons.create, size: 20, color: Colors.black), // 아이콘 크기 조절
+          icon: Icon(Icons.create, size: 16, color: Colors.black), // 아이콘 크기 조절
           label: Text(
             '글쓰기',
-            style: TextStyle(color: Colors.black, fontSize: 16), // 텍스트 크기 조절
+            style: TextStyle(color: Colors.black, fontSize: 14), // 텍스트 크기 조절
           ),
           backgroundColor: Colors.white, // 버튼 배경 색상 변경
           shape: RoundedRectangleBorder(
@@ -84,7 +99,7 @@ class _ControlViewDSState extends State<ControlViewDS> {
           ),
           elevation: 4, // 띄워진 느낌을 위한 그림자
         ),
-      ),
+      ) : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
@@ -94,11 +109,18 @@ class _ControlViewDSState extends State<ControlViewDS> {
   }
 
   _getDraggableScrollableSheet() {
-    return SizedBox.expand(
+    return NotificationListener<DraggableScrollableNotification>(
+        onNotification: (notification) {
+      setState(() {
+        sheetPosition = notification.extent; // 시트 위치 업데이트
+      });
+      return true;
+    },
+    child: SizedBox.expand(
       child: DraggableScrollableSheet(
-        minChildSize: 0.46,
+        minChildSize: 0.37,
         maxChildSize: 1,
-        initialChildSize: 0.46,
+        initialChildSize: 0.37,
         builder: (BuildContext context, ScrollController scrollController) {
           return Stack(
             children: [
@@ -342,7 +364,8 @@ class _ControlViewDSState extends State<ControlViewDS> {
           // );
 
         },
+
       ),
-    );
+    ));
   }
 }

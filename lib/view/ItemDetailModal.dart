@@ -33,11 +33,11 @@ class ItemDetailModal {
                 Align(
                   alignment: Alignment.center,
                   child: imageUrl.isNotEmpty
-                      ? Image.network(
-                    imageUrl,
+                      ? Image.file(
+                    File(imageUrl), // File 객체로 변환
                     fit: BoxFit.cover,
                   )
-                      : Container(),
+                      : Container(), // imageUrl이 비어있으면 빈 컨테이너 표시
                 ),
                 SizedBox(height: 10),
                 Text(

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:madcamp_week2/view/GroupDelivery.dart';
 import 'package:madcamp_week2/view/GroupBuying.dart';
-import 'package:madcamp_week2/view/Knock_knock.dart';
+import 'package:madcamp_week2/view/Knock.dart';
 
 class TopMenuView extends StatelessWidget {
   @override
@@ -33,9 +33,9 @@ class TopMenuView extends StatelessWidget {
             icon: Icons.notifications,
             text: '똑똑',
             onTap: () {
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(builder: (context) => Knock_knock()),
-              // );
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => Knock()),
+              );
             }),
       ],
     );

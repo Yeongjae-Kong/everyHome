@@ -70,3 +70,20 @@ Future<UserModel?> fetchUserByUidWithoutGiven() async {
   }
   return null;
 }
+
+Future<void> deleteUser(int u_id) async {
+  try {
+    final response = await http.delete(
+      Uri.parse('http://3.144.38.43/user/deleteuser/$u_id'),
+    );
+
+    if (response.statusCode != 200 && response.statusCode != 203) { // 또는 다른 성공 상태 코드
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      throw Exception('Failed to delete user');
+    }
+  } catch (e) {
+    print('Error in delete user: $e');
+    throw e; // 예외를 다시 throw하여 상위에서 처리할 수 있게 함
+  }
+}
