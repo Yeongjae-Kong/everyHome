@@ -8,12 +8,13 @@ import '../viewmodel/user_viewmodel.dart';
 import 'auth_view.dart';
 
 class CustomAppBar extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16), // 필요에 따라 가로 패딩을 조절하세요
         width: double.infinity,
+        height: 60, // 필요에 따라 높이를 조절하세요
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -27,8 +28,8 @@ class CustomAppBar extends StatelessWidget {
                 );
               },
               child: Container(
-                height: 60,
-                width: 60,
+                height: 40, // 필요에 따라 높이를 조절하세요
+                width: 40, // 필요에 따라 너비를 조절하세요
                 child: Padding(
                   padding: const EdgeInsets.all(6),
                   child: Image.asset('assets/images/home_icon.png'),
@@ -39,13 +40,12 @@ class CustomAppBar extends StatelessWidget {
               'our_home',
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 32,
+                fontSize: 20, // 필요에 따라 글꼴 크기를 조절하세요
                 fontFamily: 'Inter',
                 fontWeight: FontWeight.w600,
                 height: 0,
               ),
             ),
-
             InkWell(
               onTap: () {
                 showModalBottomSheet(
@@ -66,41 +66,24 @@ class CustomAppBar extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             ListTile(
-                              leading: Icon(Icons.logout), // 아이콘 추가
+                              leading: Icon(Icons.logout),
                               title: Text("로그아웃"),
                               onTap: () async {
-                                print("로그아웃 시도");
-                                SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                                await prefs.clear();
-                                Navigator.of(context, rootNavigator: true)
-                                    .pushReplacement(MaterialPageRoute(
-                                    builder: (context) => AuthView()));
+                                // ... 기존 코드
                               },
                             ),
                             ListTile(
-                              leading: Icon(Icons.edit), // 회원정보 수정 아이콘
+                              leading: Icon(Icons.edit),
                               title: Text("회원정보 수정"),
                               onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (context) => KakaoAuthJoinView()),
-                                );
+                                // ... 기존 코드
                               },
                             ),
                             ListTile(
-                              leading: Icon(Icons.person_remove), // 회원탈퇴 아이콘
+                              leading: Icon(Icons.person_remove),
                               title: Text("회원탈퇴"),
                               onTap: () async {
-                                // 회원탈퇴 동작 구현
-                                print("회원탈퇴 시도");
-                                SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                                String idString = prefs.getString('u_id') ?? '-1';
-                                int id = int.tryParse(idString) ?? -1;
-                                await deleteUser(id);
-                                Navigator.of(context, rootNavigator: true)
-                                    .pushReplacement(MaterialPageRoute(
-                                    builder: (context) => AuthView()));
+                                // ... 기존 코드
                               },
                             ),
                           ],
@@ -110,15 +93,13 @@ class CustomAppBar extends StatelessWidget {
                   },
                 );
               },
-
-
               child: Container(
-                width: 50,
-                height: 50,
+                width: 30, // 필요에 따라 너비를 조절하세요
+                height: 30, // 필요에 따라 높이를 조절하세요
                 child: Image.asset('assets/images/profile_icon.png'),
               ),
             ),
-            ],
+          ],
         ),
       ),
     );

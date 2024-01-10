@@ -7,14 +7,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../model/board_model.dart';
 import 'control_view_ds.dart';
 
-
 class PostModal {
   void show(BuildContext context, String email) {
     File? selectedImage;
     TextEditingController titleController = TextEditingController();
     TextEditingController contentController = TextEditingController();
-
-
 
     showDialog(
       context: context,
@@ -22,7 +19,20 @@ class PostModal {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: const Text('글 작성하기'),
+              contentPadding: const EdgeInsets.symmetric(vertical: 3, horizontal: 15),
+              title: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '글 작성하기',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 0),
+                ],
+              ),
               backgroundColor: Colors.white,
               content: SingleChildScrollView(
                 child: ListBody(
@@ -31,13 +41,16 @@ class PostModal {
                       controller: titleController,
                       decoration: const InputDecoration(
                         labelText: '제목',
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12,
+                        ),
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black)
-                        )
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                     TextField(
                       controller: contentController,
                       decoration: const InputDecoration(
@@ -55,6 +68,9 @@ class PostModal {
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                         ),
                       ),
+                      style: const TextStyle(
+                        fontSize: 12,
+                      ),
                       keyboardType: TextInputType.multiline,
                       maxLines: 5,
                     ),
@@ -68,20 +84,23 @@ class PostModal {
                           _showImageAttachedAlert(context);
                         }
                       },
-                      child: const Text('이미지 첨부'),
+                      child: const Text(
+                          '이미지 첨부',
+                        style: TextStyle(fontSize: 12),
+                      ),
                     ),
                   ],
                 ),
               ),
               actions: <Widget>[
                 TextButton(
-                  child: Text('취소'),
+                  child: const Text('취소'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
                 TextButton(
-                  child: Text('작성하기'),
+                  child: const Text('작성하기'),
                   onPressed: () async {
                     // 글 작성 로직 구현
                     if (!_isContentEmpty(
@@ -90,16 +109,16 @@ class PostModal {
                       String? imagePath = selectedImage?.path;
                       String _imagePath = imagePath ?? '';
                       BoardModel newBoardModel = BoardModel(
-                          id: -1,
-                          email: email,
-                          title: titleController.text,
-                          content: contentController.text,
-                          image: _imagePath,
-                          );
+                        id: -1,
+                        email: email,
+                        title: titleController.text,
+                        content: contentController.text,
+                        image: _imagePath,
+                      );
 
-                      try{
+                      try {
                         await addBoard(newBoardModel);
-                      } catch (e){
+                      } catch (e) {
                         print(e);
                       }
                       Navigator.pushReplacement(
@@ -108,7 +127,6 @@ class PostModal {
                           builder: (context) => ControlViewDS(),
                         ),
                       );
-                      // Navigator.of(context).pop();
                     } else {
                       // 둘 중 하나라도 작성되지 않았을 때 에러 메시지 표시
                       showErrorDialog(context, "제목과 내용을 입력해주세요.");
@@ -122,7 +140,6 @@ class PostModal {
       },
     );
   }
-
   static bool _isContentEmpty(String title, String content) {
     return title.isEmpty || content.isEmpty;
   }
@@ -144,6 +161,7 @@ class PostModal {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
+          backgroundColor: Colors.white,
           child: Container(
             padding: EdgeInsets.all(16),
             child: Column(
@@ -160,7 +178,6 @@ class PostModal {
               ],
             ),
           ),
-          backgroundColor: Colors.white,
         );
       },
     );
@@ -171,6 +188,7 @@ class PostModal {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
+          backgroundColor: Colors.white,
           child: Container(
             padding: EdgeInsets.all(16),
             child: Column(
@@ -187,7 +205,6 @@ class PostModal {
               ],
             ),
           ),
-          backgroundColor: Colors.white,
         );
       },
     );

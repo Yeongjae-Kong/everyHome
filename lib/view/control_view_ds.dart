@@ -76,7 +76,7 @@ class _ControlViewDSState extends State<ControlViewDS> {
             )
           ],
         ),
-        floatingActionButton: sheetPosition > 0.4
+        floatingActionButton: sheetPosition > 0.41
         ? Padding(
         padding: EdgeInsets.only(bottom: 20), // 하단에 패딩 추가
         child: FloatingActionButton.extended(
@@ -118,9 +118,9 @@ class _ControlViewDSState extends State<ControlViewDS> {
     },
     child: SizedBox.expand(
       child: DraggableScrollableSheet(
-        minChildSize: 0.37,
+        minChildSize: 0.4,
         maxChildSize: 1,
-        initialChildSize: 0.37,
+        initialChildSize: 0.4,
         builder: (BuildContext context, ScrollController scrollController) {
           return Stack(
             children: [
@@ -149,7 +149,7 @@ class _ControlViewDSState extends State<ControlViewDS> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 10),
+                      SizedBox(height: 20),
                       Row(
                           children: [
                             const Spacer(),
