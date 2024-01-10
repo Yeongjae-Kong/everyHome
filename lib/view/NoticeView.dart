@@ -100,7 +100,7 @@ class NoticeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
+      height: 180,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -126,9 +126,8 @@ class NoticeView extends StatelessWidget {
                   child: GlassmorphicCard(
                     margin: EdgeInsets.symmetric(horizontal: 8),
                     child: Container(
-                      width: 350,
-                      height: 200,
-                      padding: EdgeInsets.all(16),
+                      width: 280,
+                      padding: EdgeInsets.all(10),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -145,7 +144,7 @@ class NoticeView extends StatelessWidget {
                                 Text(
                                   noticeItems[index]['content']!,
                                   style: TextStyle(fontSize: 14, color: Colors.grey),
-                                  maxLines: 3,
+                                  maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ],

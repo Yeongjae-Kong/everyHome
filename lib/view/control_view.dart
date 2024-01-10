@@ -69,11 +69,11 @@ class _ControlViewState extends State<ControlView> {
               CustomAppBar(), // Your existing CustomAppBar widget
               NoticeView(), // Your existing NoticeView widget
               Expanded(
-                flex: 15,
+                flex: 2,
                 child: TopMenuView(), // Your existing TopMenuView widget
               ),
               Expanded(
-                flex: 35,
+                flex: 3,
                 child: Container(
                   color: Colors.white.withOpacity(0.1),
                 ), // Your existing Container widget for the board view

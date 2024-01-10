@@ -45,7 +45,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'madcamp_week2',
-        home: email == null ? AuthView() : const ControlViewDS(),
+        // home: email == null ? AuthView() : const ControlViewDS(),
+        home: ControlViewDS(),
       ),
     );
   }
@@ -69,7 +70,7 @@ class MyApp extends StatelessWidget {
       //   home: email == null? AuthView() : Logout()
       //   home: ControlView()
       //   home: Logout()
-    );
-  }
-}
+//     )
+//   }
+// }
 
