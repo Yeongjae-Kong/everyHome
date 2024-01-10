@@ -45,8 +45,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'madcamp_week2',
-        // home: email == null ? AuthView() : const ControlViewDS(),
-        home: ControlViewDS(),
+        home: email == null ? AuthView() : const ControlViewDS(),
+        // home: ControlViewDS(),
       ),
     );
   }

@@ -221,6 +221,8 @@ class _GroupBuyingState extends State<GroupBuying> {
                             Text(
                               '${groupBuying.content}',
                               style: TextStyle(fontSize: 16, color: Colors.black),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
                             ),
                           ],
                         ),
@@ -317,7 +319,7 @@ class _GroupBuyingState extends State<GroupBuying> {
                     keyboardType: TextInputType.multiline,
                     maxLines: 4,
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 2),
                   TextFormField(
                     onSaved: (val) => member = int.tryParse(val ?? '0') ?? 0,
                     decoration: const InputDecoration(

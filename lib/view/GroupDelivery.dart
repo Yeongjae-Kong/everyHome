@@ -430,10 +430,13 @@ class _GroupDeliveryState extends State<GroupDelivery> {
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                         ),
                       ),
+                      style: const TextStyle(
+                        fontSize: 12,
+                      ),
                       keyboardType: TextInputType.multiline,
-                      maxLines: 3,
+                      maxLines: 4,
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 2),
                     TextFormField(
                       onSaved: (val) => member = int.tryParse(val ?? '0') ?? 0,
                       decoration: const InputDecoration(
