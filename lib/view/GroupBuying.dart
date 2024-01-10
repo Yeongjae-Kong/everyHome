@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/groupbuying_model.dart';
 import 'package:madcamp_week2/view/CustomAppBar.dart';
+import '../notification.dart';
 import '../viewmodel/groupbuying_viewmodel.dart';
 
 class GroupBuying extends StatefulWidget {
@@ -16,9 +17,11 @@ class _GroupBuyingState extends State<GroupBuying> {
 
   @override
   void initState() {
-    super.initState();
     _loadCurrentUserEmail();
     _loadGroupBuyings();
+    FlutterLocalNotification.init();
+    FlutterLocalNotification.requestNotificationPermission();
+    super.initState();
   }
 
   Future<void> _loadGroupBuyings() async {
@@ -107,11 +110,13 @@ class _GroupBuyingState extends State<GroupBuying> {
         actionButton = ElevatedButton(
           onPressed: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setString('applycheck', groupBuying.title);
             setState(() {
               if (groupBuying.member > 0) {
                 groupBuying.member -= 1;
-                prefs.setString('applycheck', groupBuying.title);
+                fetchGroupBuyings();
+                FlutterLocalNotification.showNotification();
+
+
               }
             });
           },

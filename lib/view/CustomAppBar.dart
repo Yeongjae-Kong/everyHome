@@ -4,6 +4,7 @@ import 'package:madcamp_week2/view/control_view_ds.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:madcamp_week2/view/kakao_auth_join_view.dart';
 
+import '../viewmodel/user_viewmodel.dart';
 import 'auth_view.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -94,7 +95,9 @@ class CustomAppBar extends StatelessWidget {
                                 print("회원탈퇴 시도");
                                 SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
-                                await prefs.clear();
+                                String idString = prefs.getString('u_id') ?? '-1';
+                                int id = int.tryParse(idString) ?? -1;
+                                await deleteUser(id);
                                 Navigator.of(context, rootNavigator: true)
                                     .pushReplacement(MaterialPageRoute(
                                     builder: (context) => AuthView()));
