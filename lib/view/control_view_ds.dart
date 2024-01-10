@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:madcamp_week2/main.dart';
+import 'package:madcamp_week2/view/ItemDetailModal_notif.dart';
 import 'package:madcamp_week2/view/PostModal.dart';
 import 'package:madcamp_week2/view/control_view.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/board_model.dart';
@@ -30,6 +33,7 @@ class _ControlViewDSState extends State<ControlViewDS> {
   //   {'title': '이수민', 'content': '침착해요', 'image': ''},
   //   {'title': '안시현', 'content': '성실해요', 'image': ''},
   //   ];
+
   PostModal _postModal = PostModal();
   List<BoardModel> Boards = [];
   String currentUserEmail = '';
@@ -117,7 +121,6 @@ class _ControlViewDSState extends State<ControlViewDS> {
         minChildSize: 0.37,
         maxChildSize: 1,
         initialChildSize: 0.37,
-
         builder: (BuildContext context, ScrollController scrollController) {
           return Stack(
             children: [
@@ -141,7 +144,7 @@ class _ControlViewDSState extends State<ControlViewDS> {
                         color: Colors.black.withOpacity(0.1),
                       )
                     ],
-                    color: Colors.white,
+                    color: Colors.white
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -179,7 +182,7 @@ class _ControlViewDSState extends State<ControlViewDS> {
                           itemCount: Boards.length,
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
-                              onTap: () {
+                              onTap: () async {
                                 var isDeletable = false;
                                 if (Boards[index].email == currentUserEmail){
                                   isDeletable = true;
@@ -188,18 +191,21 @@ class _ControlViewDSState extends State<ControlViewDS> {
                                 String title = Boards[index].title;
                                 String content = Boards[index].content;
                                 String imageUrl = Boards[index].image; // 이미지 URL 가져오기
-                                ItemDetailModal.show(context, id, title, content, imageUrl, isDeletable);
-                                // setState(() {
-                                //   Boards.removeWhere((item) => item.id == id); // ID를 기준으로 항목 제거
-                                // });
-                                Future.delayed(Duration(milliseconds: 500), () async {
-                                  try{
-                                    await _loadBoards();
-                                  } catch (e) {
-                                    print('Error loading boards: $e');
+                                try{
+                                  ItemDetailModalNotif.show(context, id, title, content, imageUrl, isDeletable);
+                                  final itemDeleted = Provider.of<MyGlobalState>(context, listen: false).itemDeleted;
+                                  print('itemDeleted: $itemDeleted');
+                                  if(itemDeleted){
+                                    setState(() {
+                                      Boards.removeWhere((item) => item.id == id); // ID를 기준으로 항목 제거
+                                    });
                                   }
-                                });
+                                  _loadBoards();
+                                } catch (e){
+                                  print('Error deleting item $e');
+                                }
                               },
+
                               child: Column(
                                 children: [
                                   ListTile(
@@ -240,6 +246,123 @@ class _ControlViewDSState extends State<ControlViewDS> {
               ),
             ],
           );
+
+          // return Stack(
+          //   children: [
+          //     Container(
+          //       decoration: BoxDecoration(
+          //         borderRadius: const BorderRadius.only(
+          //           topRight: Radius.circular(30.0),
+          //           topLeft: Radius.circular(30.0),
+          //         ),
+          //         boxShadow: [
+          //           BoxShadow(
+          //             blurRadius: 6.0,
+          //             spreadRadius: 6.0,
+          //             offset: const Offset(0.0, 5.0),
+          //             color: Colors.black.withOpacity(0.1),
+          //           ),
+          //         ],
+          //         color: Colors.white.withOpacity(0.5),
+          //         gradient: LinearGradient(
+          //           begin: Alignment.topLeft,
+          //           end: Alignment.bottomRight,
+          //           colors: [
+          //             Colors.white.withOpacity(1),
+          //             Colors.white.withOpacity(1)
+          //             // Color(0x80FFFFFF), // 50% transparent white
+          //             // Color(0x90FFFFFF), // 18% transparent white
+          //           ],
+          //         ),
+          //       ),
+          //       child: SingleChildScrollView(
+          //         controller: scrollController,
+          //         physics: ClampingScrollPhysics(),
+          //         child: Container(
+          //           margin: EdgeInsets.only(top: 0.05 * getSize(context).height),
+          //           height: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top,
+          //           width: double.infinity,
+          //           child: Column(
+          //             crossAxisAlignment: CrossAxisAlignment.start,
+          //             children: [
+          //               SizedBox(height: 10),
+          //               Row(
+          //                 children: [
+          //                   const Spacer(),
+          //                   Column(
+          //                     children: [
+          //                       const Text(
+          //                         '게시판',
+          //                         style: TextStyle(
+          //                           color: Colors.black,
+          //                           fontSize: 16,
+          //                           fontWeight: FontWeight.bold,
+          //                         ),
+          //                       ),
+          //                       SizedBox(height: 5),
+          //                       Container(
+          //                         height: 4,
+          //                         width: 60,
+          //                         decoration: BoxDecoration(
+          //                           borderRadius: BorderRadius.circular(15.0),
+          //                           color: Colors.grey,
+          //                         ),
+          //                       ),
+          //                     ],
+          //                   ),
+          //                   const Spacer(),
+          //                 ],
+          //               ),
+          //               Expanded(
+          //                 child: ListView.builder(
+          //                   itemCount: Boards.length,
+          //                   itemBuilder: (BuildContext context, int index) {
+          //                     return InkWell(
+          //                       onTap: () async {
+          //                         // Your existing onTap logic
+          //                       },
+          //                       child: Column(
+          //                         children: [
+          //                           ListTile(
+          //                             contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+          //                             title: Column(
+          //                               crossAxisAlignment: CrossAxisAlignment.start,
+          //                               children: [
+          //                                 Text(
+          //                                   Boards[index].title,
+          //                                   style: TextStyle(fontSize: 18),
+          //                                 ),
+          //                                 SizedBox(height: 5),
+          //                                 Text(
+          //                                   Boards[index].content,
+          //                                   style: TextStyle(fontSize: 14, color: Colors.grey),
+          //                                   overflow: TextOverflow.ellipsis,
+          //                                   maxLines: 2,
+          //                                 ),
+          //                               ],
+          //                             ),
+          //                           ),
+          //                           // Divider
+          //                           Divider(
+          //                             color: Colors.grey.withOpacity(0.5),
+          //                             thickness: 2,
+          //                             indent: MediaQuery.of(context).size.width * 0.05,
+          //                             endIndent: MediaQuery.of(context).size.width * 0.05,
+          //                           ),
+          //                         ],
+          //                       ),
+          //                     );
+          //                   },
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // );
+
         },
 
       ),

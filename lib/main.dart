@@ -6,6 +6,8 @@ import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:madcamp_week2/view/control_view_ds.dart';
 import 'package:madcamp_week2/view/log_out.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,19 +20,51 @@ Future<void> main() async {
   runApp(MyApp(email));
 }
 
+class MyGlobalState extends ChangeNotifier {
+  bool itemDeleted = false;
+
+  void deleteItem() {
+    itemDeleted = true;
+    notifyListeners();
+  }
+
+  void resetDeleteFlag() {
+    itemDeleted = false;
+    notifyListeners();
+  }
+}
+
 class MyApp extends StatelessWidget {
   final String? email;
   const MyApp(this.email, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'madcamp_week2',
-      theme: ThemeData(
-        primarySwatch: Colors.amber,
+    return ChangeNotifierProvider(
+      create: (context) => MyGlobalState(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'madcamp_week2',
+        home: email == null ? AuthView() : const ControlViewDS(),
       ),
-      home: email == null ? AuthView() : const ControlViewDS(),
+    );
+  }
+}
+
+// class MyApp extends StatelessWidget {
+//   final String? email;
+//   const MyApp(this.email, {Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: 'madcamp_week2',
+//       theme: ThemeData(
+//         primarySwatch: Colors.amber,
+//       ),
+//       home: email == null ? AuthView() : const ControlViewDS(),
+
       // home: ControlViewDS()
       //   home: email == null? AuthView() : Logout()
       //   home: ControlView()
@@ -38,3 +72,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
