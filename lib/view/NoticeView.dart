@@ -83,17 +83,31 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:madcamp_week2/view/ItemDetailModal_notif.dart';
 import 'ItemDetailModal.dart';
 
 class NoticeView extends StatelessWidget {
   final List<Map<String, String>> noticeItems = [
     {
       'title': '몰입캠프',
-      'content': '몰입캠프 1분반 화이팅\n안녕\n하세요\n반가워요',
-      'image':
-      'https://raw.githubusercontent.com/Yeongjae-Kong/madcamp_week2/main/assets/images/madcamp_first.jpeg'
+      'content': '몰입캠프 1분반 화이팅\n안녕하세요\n반가워요',
+      'image': 'assets/images/notice1.jpeg'
     },
-    {'title': '플러터', 'content': '예쁘다', 'image': ''},
+    {
+      'title': '플러터',
+      'content': '예쁘다',
+      'image': ''
+    },
+    {
+      'title': '1분반',
+      'content': '2주차 다들 고생하셨습니다. :)',
+      'image': 'assets/images/notice2.jpeg'
+    },
+    {
+      'title': '모두',
+      'content': '3주차도 화이팅!!',
+      'image': 'assets/images/notice3.jpeg'
+    }
     // Add more items as needed
   ];
 
@@ -121,7 +135,7 @@ class NoticeView extends StatelessWidget {
                     String title = noticeItems[index]['title']!;
                     String content = noticeItems[index]['content']!;
                     String imageUrl = noticeItems[index]['image']!;
-                    ItemDetailModal.show(context, 0, title, content, imageUrl, false);
+                    ItemDetailModalNotif.show(context, 0, title, content, imageUrl, false);
                   },
                   child: GlassmorphicCard(
                     margin: EdgeInsets.symmetric(horizontal: 8),

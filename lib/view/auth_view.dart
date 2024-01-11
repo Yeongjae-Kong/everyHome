@@ -33,7 +33,7 @@ class AuthView extends StatelessWidget {
               Container(
                 height: 100,
                 width: 100,
-                child: Image.asset('assets/images/apartment.jpeg')),
+                child: Image.asset('assets/images/app_icon.png')),
               const SizedBox(height: 15),
               const Text('아파트 커뮤니티 서비스',
               style: TextStyle(

@@ -37,7 +37,7 @@ class CustomAppBar extends StatelessWidget {
               ),
             ),
             const Text(
-              'everyhome',
+              'everyHome',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20, // 필요에 따라 글꼴 크기를 조절하세요
@@ -68,28 +68,15 @@ class CustomAppBar extends StatelessWidget {
                             ListTile(
                               leading: Icon(Icons.logout),
                               title: Text("로그아웃"),
-                              onTap: () async {
-                                SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                                await prefs.clear();
-                                Navigator.of(context, rootNavigator: true)
-                                    .pushReplacement(MaterialPageRoute(
-                                    builder: (context) => AuthView()));
+                              onTap: () {
+                                _showsendAlert(context, '로그아웃하시겠습니까?', false);
                               },
                             ),
                             ListTile(
                               leading: Icon(Icons.person_remove),
                               title: Text("회원탈퇴"),
-                              onTap: () async {
-                                SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                                await prefs.clear();
-                                String idString = prefs.getString('u_id') ?? '-1';
-                                int id = int.tryParse(idString) ?? -1;
-                                await deleteUser(id);
-                                Navigator.of(context, rootNavigator: true)
-                                    .pushReplacement(MaterialPageRoute(
-                                    builder: (context) => AuthView()));
+                              onTap: () {
+                                _showsendAlert(context, '회원탈퇴하시겠습니까?', true);
                               },
                             ),
                           ],
@@ -108,6 +95,83 @@ class CustomAppBar extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+  void _showsendAlert(BuildContext context, String message, bool delete) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.white,
+          child: Container(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // 크기를 최소화
+              children: [
+                Text('$message'),
+                SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      child: Text('예'),
+                      onPressed: () async {
+                        // 삭제 버튼이 눌렸을 때 처리할 로직을 여기에 추가
+                        if (delete == false) {
+                          Navigator.of(context, rootNavigator: true)
+                              .pushReplacement(MaterialPageRoute(
+                              builder: (context) => AuthView()));
+                          SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                          await prefs.clear();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              '로그아웃 되었습니다.',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            duration: Duration(seconds: 2), // SnackBar 표시 시간 설정
+                            backgroundColor: Colors.white,
+                          ),
+                        );
+                        } else {
+                          Navigator.of(context, rootNavigator: true)
+                              .pushReplacement(MaterialPageRoute(
+                              builder: (context) => AuthView()));
+                          SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                          String idString = prefs.getString('u_id') ?? '-1';
+                          int id = int.tryParse(idString) ?? -1;
+                          await prefs.clear();
+                          print('탈퇴 전');
+                          deleteUser(id);
+                          print('탈퇴 후');
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                '회원탈퇴 되었습니다.',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              duration: Duration(seconds: 2), // SnackBar 표시 시간 설정
+                              backgroundColor: Colors.white,
+                            ),
+                          );
+                        };
+                      },
+                    ),
+                    TextButton(
+                      child: Text('아니오'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

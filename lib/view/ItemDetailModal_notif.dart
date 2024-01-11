@@ -36,13 +36,11 @@ class ItemDetailModalNotif {
                 // Flexible 위젯을 사용하여 이미지 크기를 조절
                 Align(
                   alignment: Alignment.center,
-                  child: imageUrl.isNotEmpty
-                      ? Image.file(
-                    File(imageUrl), // File 객체로 변환
-                    fit: BoxFit.cover,
-                  )
-                      : Container(), // imageUrl이 비어있으면 빈 컨테이너 표시
+                  child: imageUrl.isEmpty
+                      ? Container()  // 빈 컨테이너를 사용
+                      : Image.asset(imageUrl),
                 ),
+
                 SizedBox(height: 10),
                 Text(
                   content,
