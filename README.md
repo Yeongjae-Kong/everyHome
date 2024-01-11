@@ -1,6 +1,7 @@
 # everyHome
 
 아파트 주민 간 공동구매, 공동배달을 통한 비용 절감 및 층간소음 문제를 해결하고자 만든 하이퍼로컬 커뮤니티 앱
+
 ![디자인](https://github.com/Yeongjae-Kong/madcamp_week2/assets/67358433/6ca34f17-4002-4944-8760-2ba8a5b04ca7)
 
 ### 팀원
