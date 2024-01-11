@@ -4,11 +4,13 @@
 
 ![디자인](https://github.com/Yeongjae-Kong/madcamp_week2/assets/67358433/6ca34f17-4002-4944-8760-2ba8a5b04ca7)
 
+
 ### 팀원
 
 고려대학교 컴퓨터학과 20학번 김윤서
 
 DGIST 컴퓨터공학전공 19학번 공영재
+
 
 ### 개발환경
 
@@ -16,6 +18,7 @@ DGIST 컴퓨터공학전공 19학번 공영재
 - backend server: node.js
 - database: mysql
 - server deployment: AWS EC2
+  
 
 ### 어플리케이션 소개
 
@@ -49,3 +52,4 @@ DGIST 컴퓨터공학전공 19학번 공영재
 로그아웃 및 회원탈퇴 또한 가능합니다.
 
 ![KakaoTalk_20240111_220620604_08](https://github.com/Yeongjae-Kong/madcamp_week2/assets/67358433/556b2a9e-fa0d-4e8e-8c2a-bb675c4b7c48)
+
