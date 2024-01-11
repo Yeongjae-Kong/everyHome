@@ -36,8 +36,11 @@ class ItemDetailModalNotif {
                 // Flexible 위젯을 사용하여 이미지 크기를 조절
                 Align(
                   alignment: Alignment.center,
-                  child: Image.asset(imageUrl)
+                  child: imageUrl.isEmpty
+                      ? Container()  // 빈 컨테이너를 사용
+                      : Image.asset(imageUrl),
                 ),
+
                 SizedBox(height: 10),
                 Text(
                   content,
